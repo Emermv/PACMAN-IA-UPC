@@ -11,7 +11,7 @@ export function init() {
 
 const trainStatusElement = document.getElementById('train-status');
 
-// Set hyper params from UI values.
+
 const learningRateElement = document.getElementById('learningRate');
 export const getLearningRate = () => +learningRateElement.value;
 
@@ -103,5 +103,6 @@ export function draw(image, canvas) {
     imageData.data[j + 2] = (data[i * 3 + 2] + 1) * 127;
     imageData.data[j + 3] = 255;
   }
+//  console.log(imageData)
   ctx.putImageData(imageData, 0, 0);
 }

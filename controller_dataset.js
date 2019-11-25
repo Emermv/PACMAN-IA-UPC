@@ -17,6 +17,7 @@ export class ControllerDataset {
    * @param {number} label The label of the example. Should be a number.
    */
   addExample(example, label) {
+   // console.log(label,example)
     // One-hot encode the label.
     const y = tf.tidy(
         () => tf.oneHot(tf.tensor1d([label]).toInt(), this.numClasses));

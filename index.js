@@ -1,19 +1,4 @@
-/**
- * @license
- * Copyright 2018 Google LLC. All Rights Reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * =============================================================================
- */
+
 
 import * as tf from '@tensorflow/tfjs';
 import * as tfd from '@tensorflow/tfjs-data';
@@ -37,9 +22,10 @@ let model;
 // Loads mobilenet and returns a model that returns the internal activation
 // we'll use as input to our classifier model.
 async function loadTruncatedMobileNet() {
-  const mobilenet = await tf.loadLayersModel(
-      'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
-
+ /*const mobilenet = await tf.loadLayersModel(
+      'localstorage://model');*/
+      const mobilenet = await tf.loadLayersModel(
+        'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
   // Return a model that outputs an internal activation.
   const layer = mobilenet.getLayer('conv_pw_13_relu');
   return tf.model({inputs: mobilenet.inputs, outputs: layer.output});
@@ -118,10 +104,12 @@ async function train() {
     epochs: ui.getEpochs(),
     callbacks: {
       onBatchEnd: async (batch, logs) => {
-        ui.trainStatus('Loss: ' + logs.loss.toFixed(5));
+        ui.trainStatus('Pérdida: ' + logs.loss.toFixed(5));
       }
     }
   });
+  console.log(model);
+  await model.save('indexeddb://model');
 }
 
 let isPredicting = false;
@@ -145,6 +133,7 @@ async function predict() {
     const predictedClass = predictions.as1D().argMax();
     const classId = (await predictedClass.data())[0];
     img.dispose();
+    console.log("classId",classId);
 
     ui.predictClass(classId);
     await tf.nextFrame();
@@ -165,7 +154,7 @@ async function getImage() {
 }
 
 document.getElementById('train').addEventListener('click', async () => {
-  ui.trainStatus('Training...');
+  ui.trainStatus('Entrenando...');
   await tf.nextFrame();
   await tf.nextFrame();
   isPredicting = false;
@@ -185,12 +174,13 @@ async function init() {
     document.getElementById('no-webcam').style.display = 'block';
   }
   truncatedMobileNet = await loadTruncatedMobileNet();
-
+    
   ui.init();
-
+model=await tf.loadLayersModel('indexeddb://model');
   // Warm up the model. This uploads weights to the GPU and compiles the WebGL
   // programs so the first time we collect data from the webcam it will be
   // quick.
+  console.log(model)
   const screenShot = await webcam.capture();
   truncatedMobileNet.predict(screenShot.expandDims(0));
   screenShot.dispose();
