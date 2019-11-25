@@ -5,6 +5,20 @@ import * as tfd from '@tensorflow/tfjs-data';
 
 import {ControllerDataset} from './controller_dataset';
 import * as ui from './ui';
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
+
+Vue.use(Vuetify);
+const vuetify=new Vuetify({});
+new Vue({
+  vuetify,
+  mounted(){
+    console.log('mounted')
+    // Initialize the application.
+init();
+
+  }
+}).$mount('#app');
 
 // The number of classes we want to predict. In this example, we will be
 // predicting 4 classes for up, down, left, and right.
@@ -186,5 +200,3 @@ model=await tf.loadLayersModel('indexeddb://model');
   screenShot.dispose();
 }
 
-// Initialize the application.
-init();
