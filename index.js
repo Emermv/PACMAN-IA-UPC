@@ -5,20 +5,7 @@ import * as tfd from '@tensorflow/tfjs-data';
 
 import {ControllerDataset} from './controller_dataset';
 import * as ui from './ui';
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
 
-Vue.use(Vuetify);
-const vuetify=new Vuetify({});
-new Vue({
-  vuetify,
-  mounted(){
-    console.log('mounted')
-    // Initialize the application.
-init();
-
-  }
-}).$mount('#app');
 
 // The number of classes we want to predict. In this example, we will be
 // predicting 4 classes for up, down, left, and right.
@@ -198,5 +185,44 @@ model=await tf.loadLayersModel('indexeddb://model');
   const screenShot = await webcam.capture();
   truncatedMobileNet.predict(screenShot.expandDims(0));
   screenShot.dispose();
-}
 
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var m=localStorage.getItem("models");
+  if(m){
+    window.$models=JSON.parse(m);
+    var mo=document.getElementById("model");
+    for(var m of window.$models){
+      var o=document.createElement('option');
+      o.setAttribute('value',m.name);
+      o.innerHTML=m.name;
+    mo.appendChild(o);
+    }
+    mo.addEventListener("change",(e)=>{
+      console.log(e.target.value)
+          model=tf.loadLayersModel('indexeddb://'+e.target.value);
+    });
+  }else{
+    window.$models=[];
+  }
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems, {});
+  var selects = document.querySelectorAll('select');
+   M.FormSelect.init(selects, {});
+
+    M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {});
+    
+     M.Collapsible.init(document.querySelectorAll('.collapsible'), {});
+     document.getElementById("save_model").addEventListener('click',(e)=>{
+      e.preventDefault();
+      var model_name=document.getElementById("model_name").value;
+      console.log(model_name)
+      if(model_name){
+         model.save('indexeddb://'+model_name);
+         window.$models.push({name:model_name});
+         localStorage.setItem('models',JSON.stringify(window.$models));
+      }
+     })
+});
+
+init();

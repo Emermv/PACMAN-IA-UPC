@@ -5,13 +5,10 @@
   <title>PACMAN UPC</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-  
+  <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <div id="app">
-
-  </div>
   <header>
     PACMAN
   </header>
@@ -47,61 +44,6 @@
       </div><!-- /.panel-row -->
 
       <div class="panel-row params-webcam-row">
-
-        <!-- Hyper params. -->
-        <div class="hyper-params">
-
-          <!-- Learning rate -->
-          <div class="dropdown">
-            <label>Tasa de aprendizaje</label>
-            <div class="select">
-              <select id="learningRate">
-                <option value="0.00001">0.00001</option>
-                <option selected value="0.0001">0.0001</option>
-                <option value="0.01">0.001</option>
-                <option value="0.03">0.003</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Batch size -->
-          <div class="dropdown">
-            <label>Tamaño de lote</label>
-            <div class="select">
-              <select id="batchSizeFraction">
-                <option value="0.05">0.05</option>
-                <option value="0.1">0.1</option>
-                <option selected value="0.4">0.4</option>
-                <option value="1">1</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Epochs -->
-          <div class="dropdown">
-            <label>Periodo</label>
-            <div class="select">
-              <select id="epochs">
-                <option value="10">10</option>
-                <option selected value="20">20</option>
-                <option value="40">40</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Hidden units -->
-          <div class="dropdown">
-            <label>Unidades ocultas</label>
-            <div class="select">
-              <select id="dense-units">
-                <option value="10">10</option>
-                <option selected value="100">100</option>
-                <option value="200">200</option>
-              </select>
-            </div>
-          </div>
-
-        </div><!-- /.hyper-params -->
 
         <div class="webcam-box-outer">
           <div class="webcam-box-inner">
@@ -204,11 +146,109 @@
     </div><!-- /.panel -->
 
   </div><!-- /#controller -->
+     <!-- Modal Trigger -->
+     <div class="fixed-action-btn">
+      <a class="btn-floating btn-large teal modal-trigger" href="#modal1">
+        <i class="large material-icons">settings</i>
+      </a>
+    
+    </div>
 
-  <p id="copyright"></p>
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal bottom-sheet" style="height: 70%;max-height: 70%;">
+    <div class="modal-content">
+       <!-- Hyper params. -->
+       <div class="hyper-params">
+             <div class="row">
+                <!-- Learning rate -->
+        <div class="input-field col s12 m6">
+      
+         
+          <select id="learningRate">
+            <option value="0.00001">0.00001</option>
+            <option selected value="0.0001">0.0001</option>
+            <option value="0.01">0.001</option>
+            <option value="0.03">0.003</option>
+          </select>
+          <label>Tasa de aprendizaje</label>
+      </div>
+
+      <!-- Batch size -->
+      <div class="input-field col s12 m6">
+        
+       
+          <select id="batchSizeFraction">
+            <option value="0.05">0.05</option>
+            <option value="0.1">0.1</option>
+            <option selected value="0.4">0.4</option>
+            <option value="1">1</option>
+          </select>
+          <label>Tamaño de lote</label>
+      </div>
+
+      <!-- Epochs -->
+      <div class="input-field col s12 m6">
+       
+      
+          <select id="epochs">
+            <option value="10">10</option>
+            <option selected value="20">20</option>
+            <option value="40">40</option>
+          </select>
+          <label>Periodo</label>
+      </div>
+
+      <!-- Hidden units -->
+      <div class="input-field col s12 m6">
+        
+        
+          <select id="dense-units">
+            <option value="10">10</option>
+            <option selected value="100">100</option>
+            <option value="200">200</option>
+          </select>
+          <label>Unidades ocultas</label>
+      </div>
+      <div class="input-field col s12 m6">
+        <select id="model">
+          
+        </select>
+        <label>Modelo</label>
+    </div>
+      <div class="col s12 m12">
+        <ul class="collapsible">
+          <li>
+            <div class="collapsible-header"><i class="material-icons">filter_drama</i>Modelo</div>
+            <div class="collapsible-body">
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <input id="model_name" type="text" class="validate">
+                  <label for="model_name">Nombre</label>
+                </div>
+                <div class="input-field col s12 m6">
+                  <a class="waves-effect waves-light btn" id="save_model">GUARDAR</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          
+        </ul>
+
+      </div>
+
+
+             </div>
+         
+      </div><!-- /.hyper-params -->
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Ok</a>
+    </div>
+  </div>
+
 
   <script src="pacman-google.js"></script>
-
+   <script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
   <script src="index.js"></script>
 </body>
 </html>
