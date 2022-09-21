@@ -13,7 +13,7 @@
     "materialize-css": "^1.0.0-rc.2",
     "vega-embed": "^3.0.0",
     "vue": "^2.6.10",
-    "vuetify": "^2.1.11"
+    "vuetify": "^2.6.10"
   },
   "scripts": {
     "watch": "cross-env NODE_ENV=development parcel index.html --no-hmr --open",
